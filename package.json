@@ -1,6 +1,6 @@
 {
   "name": "@tallion/sdk",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Tallion SDK — AI agent spend control for developers",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

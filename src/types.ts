@@ -7,12 +7,20 @@ export interface TallyConfig {
 
 // ── Authorization ──
 
+export interface PurchaseContext {
+  amount: number;        // cents
+  description: string;   // e.g. "Classic Burger"
+  merchant?: string;     // e.g. "Burger Joint"
+  reference?: string;    // developer's internal order ID
+}
+
 export interface CreateAuthUrlOptions {
   customerIdentifier?: string;
   redirectUrl: string;
   scopes?: string[];
   codeChallengeMethod?: "S256" | "plain";
   suggestedLimits?: SpendLimits;
+  purchaseContext?: PurchaseContext;
 }
 
 export interface AuthUrlResult {

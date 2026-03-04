@@ -60,6 +60,14 @@ export class AuthorizeModule {
               require_approval_above: options.suggestedLimits.requireApprovalAbove,
             }
           : undefined,
+        purchase_context: options.purchaseContext
+          ? {
+              amount: options.purchaseContext.amount,
+              description: options.purchaseContext.description,
+              merchant: options.purchaseContext.merchant,
+              reference: options.purchaseContext.reference,
+            }
+          : undefined,
       },
     });
 
