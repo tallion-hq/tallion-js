@@ -1,6 +1,7 @@
 import { AuthorizeModule } from "./authorize";
 import { BalanceModule } from "./balance";
 import { resolveBaseUrl } from "./http";
+import { IntentsModule } from "./intents";
 import { PurchaseModule } from "./purchase";
 import { WebhooksModule } from "./webhooks";
 import type { PurchaseOptions, PurchaseResult, TallyConfig } from "./types";
@@ -18,6 +19,9 @@ export class Tally {
   /** Balance operations */
   public balances: BalanceModule;
 
+  /** Purchase intents (Buy Anywhere) */
+  public intents: IntentsModule;
+
   /** Webhook signature verification */
   public webhooks: WebhooksModule;
 
@@ -31,6 +35,7 @@ export class Tally {
     this.baseUrl = resolveBaseUrl(config.apiKey, config.baseUrl);
     this.authorize = new AuthorizeModule(this.baseUrl, this.apiKey);
     this.purchases = new PurchaseModule(this.baseUrl, this.apiKey);
+    this.intents = new IntentsModule(this.baseUrl, this.apiKey);
     this.balances = new BalanceModule(this.baseUrl, this.apiKey);
     this.webhooks = new WebhooksModule();
   }

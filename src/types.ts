@@ -127,6 +127,66 @@ export interface WebhookEvent {
   data: Record<string, unknown>;
 }
 
+// ── Purchase Intents (Buy Anywhere) ──
+
+export interface CreateIntentOptions {
+  customerToken: string;
+  amount: number;
+  currency?: string;
+  merchant?: {
+    name: string;
+    url?: string;
+    mcc?: string;
+  };
+  product?: {
+    description: string;
+    url?: string;
+  };
+  walletId?: string;
+  amountTolerancePct?: number;
+}
+
+export interface IntentCardDetails {
+  pan: string;
+  cvv: string;
+  expMonth: number;
+  expYear: number;
+  lastFour: string;
+}
+
+export interface IntentResult {
+  intentId: string;
+  status: 'card_issued' | 'awaiting_approval' | 'declined';
+  amount: number;
+  currency: string;
+  merchantName?: string;
+  expiresAt?: string;
+  transactionId?: string;
+  /** Card details — only present when status is "card_issued". */
+  card?: IntentCardDetails;
+}
+
+export interface IntentStatusResult {
+  intentId: string;
+  status: string;
+  amount: number;
+  currency: string;
+  merchantName?: string;
+  cardLastFour?: string;
+  asaVerified: boolean;
+  asaAmount?: number;
+  asaMerchantDescriptor?: string;
+  asaMismatchReason?: string;
+  transactionId?: string;
+  expiresAt?: string;
+  createdAt: string;
+}
+
+export interface ListIntentsOptions {
+  limit?: number;
+  offset?: number;
+}
+
 // ── Errors ──
 
 export interface TallionErrorData {
