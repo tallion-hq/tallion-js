@@ -21,6 +21,13 @@ export async function request<T>(
   apiKey: string,
   options: RequestOptions = {},
 ): Promise<T> {
+  if (!apiKey) {
+    throw new TallionError(
+      401,
+      "Tallion API key is required. Get one at https://tallion.ai/developer",
+      "missing_api_key",
+    );
+  }
   const url = `${baseUrl}/api${path}`;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",

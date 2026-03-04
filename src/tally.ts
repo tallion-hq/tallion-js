@@ -22,6 +22,11 @@ export class Tally {
   public webhooks: WebhooksModule;
 
   constructor(config: TallyConfig) {
+    if (!config.apiKey) {
+      throw new Error(
+        "Tallion API key is required. Get one at https://tallion.ai/developer",
+      );
+    }
     this.apiKey = config.apiKey;
     this.baseUrl = resolveBaseUrl(config.apiKey, config.baseUrl);
     this.authorize = new AuthorizeModule(this.baseUrl, this.apiKey);

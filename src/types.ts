@@ -8,7 +8,7 @@ export interface TallyConfig {
 // ── Authorization ──
 
 export interface CreateAuthUrlOptions {
-  customerIdentifier: string;
+  customerIdentifier?: string;
   redirectUrl: string;
   scopes?: string[];
   codeChallengeMethod?: "S256" | "plain";
