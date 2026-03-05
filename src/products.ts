@@ -1,5 +1,6 @@
 import { request } from "./http";
 import type {
+  ExtractedIntent,
   Product,
   ProductSearchOptions,
   ProductSearchResult,
@@ -31,6 +32,7 @@ export class ProductsModule {
           min_trust_score: options?.minTrustScore,
           max_price_cents: options?.maxPriceCents,
           store: options?.store,
+          natural_language: options?.naturalLanguage,
         },
       },
     );
@@ -39,6 +41,9 @@ export class ProductsModule {
       products: res.products.map(mapProduct),
       query: res.query,
       total: res.total,
+      extractedIntent: res.extracted_intent
+        ? mapExtractedIntent(res.extracted_intent)
+        : undefined,
     };
   }
 
@@ -74,10 +79,19 @@ interface RawProduct {
   trust_breakdown?: Record<string, unknown>;
 }
 
+interface RawExtractedIntent {
+  keyword: string;
+  max_price_cents?: number;
+  store?: string;
+  intent_tags: string[];
+  intent_summary?: string;
+}
+
 interface RawSearchResponse {
   products: RawProduct[];
   query: string;
   total: number;
+  extracted_intent?: RawExtractedIntent;
 }
 
 function mapProduct(raw: RawProduct): Product {
@@ -95,5 +109,15 @@ function mapProduct(raw: RawProduct): Product {
     inStock: raw.in_stock,
     trustScore: raw.trust_score,
     trustBreakdown: raw.trust_breakdown,
+  };
+}
+
+function mapExtractedIntent(raw: RawExtractedIntent): ExtractedIntent {
+  return {
+    keyword: raw.keyword,
+    maxPriceCents: raw.max_price_cents,
+    store: raw.store,
+    intentTags: raw.intent_tags,
+    intentSummary: raw.intent_summary,
   };
 }

@@ -34,6 +34,7 @@ export type {
   Product,
   ProductSearchOptions,
   ProductSearchResult,
+  ExtractedIntent,
   // Checkout
   ShippingAddress,
   CreateCheckoutOptions,

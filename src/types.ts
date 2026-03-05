@@ -197,6 +197,7 @@ export interface ProductSearchOptions {
   minTrustScore?: number;
   maxPriceCents?: number;
   store?: string;
+  naturalLanguage?: boolean;
 }
 
 export interface Product {
@@ -215,10 +216,19 @@ export interface Product {
   trustBreakdown?: Record<string, unknown>;
 }
 
+export interface ExtractedIntent {
+  keyword: string;
+  maxPriceCents?: number;
+  store?: string;
+  intentTags: string[];
+  intentSummary?: string;
+}
+
 export interface ProductSearchResult {
   products: Product[];
   query: string;
   total: number;
+  extractedIntent?: ExtractedIntent;
 }
 
 // ── Checkout (Managed Buy) ──
