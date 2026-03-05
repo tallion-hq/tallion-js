@@ -9,7 +9,7 @@ export class WebhooksModule {
    * Uses Web Crypto API (works in Node 18+, Deno, Bun, Cloudflare Workers, etc.)
    *
    * @param body - Raw request body string
-   * @param signature - Value of X-Tally-Signature header
+   * @param signature - Value of X-Tallion-Signature header
    * @param tolerance - Max age in seconds (default: 300 = 5 minutes)
    */
   async verify(

@@ -1,9 +1,12 @@
 // ── SDK Configuration ──
 
-export interface TallyConfig {
+export interface TallionConfig {
   apiKey: string;
   baseUrl?: string;
 }
+
+/** @deprecated Use TallionConfig instead */
+export type TallyConfig = TallionConfig;
 
 // ── Authorization ──
 
@@ -185,6 +188,128 @@ export interface IntentStatusResult {
 export interface ListIntentsOptions {
   limit?: number;
   offset?: number;
+}
+
+// ── Product Search ──
+
+export interface ProductSearchOptions {
+  maxResults?: number;
+  minTrustScore?: number;
+  maxPriceCents?: number;
+  store?: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  priceCents: number;
+  currency: string;
+  store: string;
+  url: string;
+  imageUrl?: string;
+  rating?: number;
+  reviewCount?: number;
+  deliveryEstimate?: string;
+  inStock: boolean;
+  trustScore: number;
+  trustBreakdown?: Record<string, unknown>;
+}
+
+export interface ProductSearchResult {
+  products: Product[];
+  query: string;
+  total: number;
+}
+
+// ── Checkout (Managed Buy) ──
+
+export interface ShippingAddress {
+  name: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country?: string;
+}
+
+export interface CreateCheckoutOptions {
+  customerToken: string;
+  productUrl: string;
+  productName?: string;
+  productVariant?: string;
+  productPriceCents: number;
+  quantity?: number;
+  shipping: ShippingAddress;
+  walletId?: string;
+  amountTolerancePct?: number;
+}
+
+export interface CheckoutSession {
+  id: string;
+  purchaseIntentId?: string;
+  status: CheckoutStatus;
+  progressPct: number;
+  productUrl: string;
+  productName?: string;
+  shippingName: string;
+  merchantDomain?: string;
+  merchantName?: string;
+  orderNumber?: string;
+  orderTotalCents?: number;
+  estimatedDelivery?: string;
+  trackingNumber?: string;
+  trackingUrl?: string;
+  confirmationScreenshot?: string;
+  cardLastFour?: string;
+  errorCode?: string;
+  errorMessage?: string;
+  startedAt?: string;
+  completedAt?: string;
+  createdAt: string;
+}
+
+export type CheckoutStatus =
+  | "queued"
+  | "initializing"
+  | "navigating"
+  | "product_confirmed"
+  | "adding_to_cart"
+  | "entering_shipping"
+  | "entering_payment"
+  | "reviewing_order"
+  | "submitting"
+  | "awaiting_3ds"
+  | "order_placed"
+  | "extracting_confirmation"
+  | "completed"
+  | "failed"
+  | "cancelled"
+  | "timeout"
+  | "card_declined"
+  | "merchant_blocked";
+
+export interface CheckoutEvent {
+  event: "status" | "screenshot" | "error" | "complete";
+  sessionId: string;
+  status: CheckoutStatus;
+  progressPct: number;
+  message?: string;
+  screenshotUrl?: string;
+  orderNumber?: string;
+  timestamp: string;
+}
+
+export interface CheckoutStep {
+  id: string;
+  stepNumber: number;
+  stepName: string;
+  status: string;
+  screenshotUrl?: string;
+  pageUrl?: string;
+  durationMs?: number;
+  errorMessage?: string;
+  createdAt: string;
 }
 
 // ── Errors ──
