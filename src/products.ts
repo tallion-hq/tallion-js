@@ -66,10 +66,13 @@ export class ProductsModule {
 interface RawProduct {
   id: string;
   name: string;
+  title?: string;
   price_cents: number;
   currency: string;
   store: string;
+  merchant_name?: string;
   url: string;
+  product_url?: string;
   image_url?: string;
   rating?: number;
   review_count?: number;
@@ -77,6 +80,13 @@ interface RawProduct {
   in_stock: boolean;
   trust_score: number;
   trust_breakdown?: Record<string, unknown>;
+  brand?: string;
+  description?: string;
+  merchant_domain?: string;
+  condition?: string;
+  source?: string;
+  vertical?: string;
+  raw_price_str?: string;
 }
 
 interface RawExtractedIntent {
@@ -95,13 +105,22 @@ interface RawSearchResponse {
 }
 
 function mapProduct(raw: RawProduct): Product {
+  const name = raw.title ?? raw.name;
+  const store = raw.merchant_name ?? raw.store;
+  const url = raw.product_url ?? raw.url;
+
   return {
     id: raw.id,
-    name: raw.name,
+    // Canonical fields
+    title: name,
+    merchantName: store,
+    productUrl: url,
+    // Legacy aliases (backwards compat)
+    name,
+    store,
+    url,
     priceCents: raw.price_cents,
     currency: raw.currency,
-    store: raw.store,
-    url: raw.url,
     imageUrl: raw.image_url,
     rating: raw.rating,
     reviewCount: raw.review_count,
@@ -109,6 +128,14 @@ function mapProduct(raw: RawProduct): Product {
     inStock: raw.in_stock,
     trustScore: raw.trust_score,
     trustBreakdown: raw.trust_breakdown,
+    // New fields
+    brand: raw.brand,
+    description: raw.description,
+    merchantDomain: raw.merchant_domain,
+    condition: raw.condition,
+    source: raw.source,
+    vertical: raw.vertical,
+    rawPriceStr: raw.raw_price_str,
   };
 }
 

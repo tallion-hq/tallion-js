@@ -202,11 +202,25 @@ export interface ProductSearchOptions {
 
 export interface Product {
   id: string;
+
+  /** Product title (canonical). Also available as `name` for backwards compat. */
+  title: string;
+  /** @deprecated Use `title` instead */
   name: string;
+
   priceCents: number;
   currency: string;
+
+  /** Merchant display name (canonical). Also available as `store` for backwards compat. */
+  merchantName: string;
+  /** @deprecated Use `merchantName` instead */
   store: string;
+
+  /** Direct product page URL (canonical). Also available as `url` for backwards compat. */
+  productUrl: string;
+  /** @deprecated Use `productUrl` instead */
   url: string;
+
   imageUrl?: string;
   rating?: number;
   reviewCount?: number;
@@ -214,6 +228,15 @@ export interface Product {
   inStock: boolean;
   trustScore: number;
   trustBreakdown?: Record<string, unknown>;
+
+  // ── New fields ──
+  brand?: string;
+  description?: string;
+  merchantDomain?: string;
+  condition?: string;
+  source?: string;
+  vertical?: string;
+  rawPriceStr?: string;
 }
 
 export interface ExtractedIntent {
